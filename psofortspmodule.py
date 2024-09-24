@@ -1,8 +1,14 @@
 import random as rm
-import cities29 as G
+# import cities29 as G
 # import cities14 as G
+import cities8 as G
 
 # Initialize graph of cities as adjacency matrix
+'''graphofcities= [[0, 1, 9, 12, 4],
+				[1, 0, 1, 7, 5],
+				[9, 1, 0, 2, 8],
+				[12, 7, 2, 0, 3],
+				[4, 5, 8, 3, 0],]'''
 '''
 graphofcities = [[0, 2, 2, 5, 7],
                  [2, 0, 4, 1, 2],
@@ -34,10 +40,15 @@ def calcTourCost(toursequence):
 	tourcost = 0
 
 	for i in range(len(toursequence)-1):
-		# print (graphofcities[ toursequence[i] ][ toursequence[i+1] ])
+		print("from:", toursequence[i])
+		print("to", toursequence[i+1])
+		print (graphofcities[ toursequence[i] ][ toursequence[i+1] ])
+		
 		tourcost = tourcost + graphofcities[ toursequence[i] ][ toursequence[i+1] ]
-
+		print("partial tour cost:", tourcost)
+	print("from", toursequence[-1], "to", toursequence[0], "costs:",graphofcities[ toursequence[-1] ][ toursequence[0] ] )
 	tourcost = tourcost + graphofcities[ toursequence[-1] ][ toursequence[0] ]          # to complete the cycle
+	print("tourcost:" , tourcost)
 	return tourcost
 
 
@@ -115,7 +126,11 @@ def computeG(listofparticles):
 	tour, cost = min( seq, key = lambda t:t[1] )
 	Best = {"tour":tour,"cost":cost}
 	assert ( Best["cost"] == calcTourCost( Best["tour"] ))    # cross checking code
+	print ("THE BEST IS:", Best["tour"], "with cost:", Best["cost"])
 	return Best
+
+
+
 
 
 def partialsearch(tourpos, vel):

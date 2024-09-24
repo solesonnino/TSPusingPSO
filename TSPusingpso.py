@@ -12,15 +12,15 @@ last node is same as first, so last node is NOT considered explicitly
 
 ## STEP 1: Initialization
 print ("TSP graph created...")
-
-listofparticles = PSO.initializeparticles(n_particles = 5)
+n_particles=7
+listofparticles = PSO.initializeparticles(n_particles)
 print ("Particles initialized to compute TSP tour")
 
 # PSO.displayparticles(listofparticles)
 GlobalBest = PSO.computeG(listofparticles)
 print ("\n ******Initial Global Best tour:",GlobalBest["tour"], ",with cost :",GlobalBest["cost"],"****** \n")
-
-n_iter = 5
+GlobalBest["cost"]=PSO.calcTourCost(GlobalBest["tour"])
+n_iter = 10
 
 ## STEP 2
 for iter in range(n_iter):
@@ -41,12 +41,12 @@ for iter in range(n_iter):
 
 		# Calculate new Velocity Vid = Vid (Previous iteration velocity) + alpha * A + beta * B; 
 		# where alpha & beta are randomly generated values between zero and one, '+' is concatenation operator implemented by 'extend'
-		alpha = np.random.random()
-		beta = np.random.random()
-		if ( alpha > 0.7 ):
-			particle["vel"].extend(A)   
-		if ( beta > 0.7 ):
-			particle["vel"].extend(B)
+		alpha = 1 #np.random.random()
+		beta = 1 #np.random.random()
+		#if ( alpha > 0.7 ):
+		particle["vel"].extend(A)   
+		#if ( beta > 0.7 ):
+		particle["vel"].extend(B)
 
 
 		# Calculate new current tour Position using Xid = Xid + Vid and corresponding cost
@@ -72,8 +72,8 @@ for iter in range(n_iter):
 	PSO.displayparticles(listofparticles)
 	iterglobal =  PSO.computeG(listofparticles)  # best tour found in current iteration
 	print ( "\n** Global Best Tour:",GlobalBest["tour"],"with Cost:",GlobalBest["cost"] )
-	assert ( iterglobal["cost"] == PSO.calcTourCost( iterglobal["tour"] ))    # cross checking code
-
+	iterglobal["cost"] = PSO.calcTourCost( iterglobal["tour"] )    # cross checking code
+	GlobalBest["cost"] = PSO.calcTourCost(GlobalBest["tour"])	#cross checking
 ## STEP 4 
 # Update Global tour if required
 	if ( iterglobal["cost"] < GlobalBest["cost"] ):
@@ -84,5 +84,6 @@ for iter in range(n_iter):
 
 
 
-print ("\n\n After all iterations:\n Global Best tour",GlobalBest["tour"],"with cost:",GlobalBest["cost"])
+print ("\n\n After all iterations:\n Global Best tour",GlobalBest["tour"],"with cost:",GlobalBest["cost"], "number of iterations:", n_iter)
+PSO.calcTourCost(GlobalBest["tour"])
 ############################################# END OF CODE ################################################
